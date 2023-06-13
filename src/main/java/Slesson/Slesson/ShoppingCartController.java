@@ -17,12 +17,16 @@ public class ShoppingCartController {
     public void addToCart(@RequestBody List<Integer> itemIds, HttpSession session) {
         List<Integer> cart = getCartInSession(session);
         cart.addAll(itemIds);
+
     }
+
 
     @GetMapping("/get")
     public List<Integer> getCart(HttpSession session) {
         return getCartInSession(session);
+
     }
+
 
     @SuppressWarnings("unchecked")
     private List<Integer> getCartInSession(HttpSession session) {
@@ -31,6 +35,7 @@ public class ShoppingCartController {
             cart = new ArrayList<>();
             session.setAttribute("CART_KEY", cart);
         }
+
         return cart;
     }
 }
