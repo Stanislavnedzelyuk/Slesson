@@ -12,18 +12,21 @@ import java.util.List;
 @RestController
 @RequestMapping("/store/order")
 public class ShoppingCartController {
+    private final ShoppingCart cart;
+
+    public ShoppingCartController(ShoppingCart cart) {
+        this.cart = cart;
+    }
 
     @PostMapping("/add")
-    public void addToCart(@RequestBody List<Integer> itemIds, HttpSession session) {
-        List<Integer> cart = getCartInSession(session);
-        cart.addAll(itemIds);
+    public void addToCart(@RequestBody List<Integer> itemIds) {
+        cart.addItems(itemIds);
     }
 
     @GetMapping("/get")
-    public List<Integer> getCart(HttpSession session) {
-        return getCartInSession(session);
+    public List<Integer> getCart() {
+        return cart.getItems();
     }
-
     @SuppressWarnings("unchecked")
     private List<Integer> getCartInSession(HttpSession session) {
         List<Integer> cart = (List<Integer>) session.getAttribute("CART_KEY");
@@ -31,8 +34,11 @@ public class ShoppingCartController {
             cart = new ArrayList<>();
             session.setAttribute("CART_KEY", cart);
         }
+
+
         return cart;
     }
+
 }
 
 
